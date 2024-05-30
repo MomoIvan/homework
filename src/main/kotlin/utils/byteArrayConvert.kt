@@ -6,16 +6,26 @@ import java.util.*
 
 class ByteArrayConvert {
 
+    // 預設第一行是欄位名稱，從第二行開始是資料
+    // 假如沒有資料就會吐 null
     fun parseSVCFile(data: ByteArray): List<Order>? {
         val orders = mutableListOf<Order>()
 
         ByteArrayInputStream(data).use { inputStream ->
             Scanner(inputStream).use { scanner ->
-                val fieldIndices = getFieldIndices(scanner) ?: return null
+                if (!scanner.hasNextLine()) {
+                    return null
+                }
 
+                // 預設第一行都會有欄位名稱，取得欄位名稱後記住每個欄位的順序
+                val field = scanner.nextLine().split(",")
+                var fieldIndices = field.associateBy({ it }) {
+                    field.indexOf(it)
+                }
+
+                // 從第二行開始取得每一個欄位的資料並塞到 Order Model 內
                 while (scanner.hasNextLine()) {
-                    val line = scanner.nextLine()
-                    val parts = line.split(",")
+                    val parts = scanner.nextLine().split(",")
                     val order = Order()
 
                     parts.forEachIndexed { index, value ->
@@ -34,14 +44,7 @@ class ByteArrayConvert {
                 }
             }
         }
-        return orders
-    }
 
-    private fun getFieldIndices(scanner: Scanner): Map<String, Int>? {
-        if (!scanner.hasNextLine()) return null
-
-        val firstLine = scanner.nextLine()
-        val parts = firstLine.split(",")
-        return parts.associateBy({ it }) { parts.indexOf(it) }
+        return orders.takeIf { it.isNotEmpty() }
     }
 }

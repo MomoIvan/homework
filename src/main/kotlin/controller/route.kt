@@ -3,6 +3,7 @@ package com.example.momodemo.controller
 import com.example.momodemo.model.Order
 import com.example.momodemo.repository.OrderRepository
 import com.example.momodemo.service.OrderService
+import jakarta.websocket.server.PathParam
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,6 +16,13 @@ class Route(private val orderService: OrderService) {
     @GetMapping
     fun getAll(): List<Order> {
         return orderService.getAllOrders()
+    }
+
+    @GetMapping("/search")
+    fun search(@RequestParam(required = false) order_no : Long?,
+               @RequestParam(required = false) cust_no : Long?,
+               @RequestParam(required = false) goods_code : Long?) : List<Order>? {
+        return  orderService.getOrderByCustNoAndOrderNoAndGoodsCode(cust_no, order_no, goods_code)
     }
 
     @GetMapping("/{no}")
