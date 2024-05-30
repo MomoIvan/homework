@@ -1,6 +1,7 @@
 package com.example.momodemo.controller
 
 import com.example.momodemo.model.Order
+import com.example.momodemo.model.PageResult
 import com.example.momodemo.repository.OrderRepository
 import com.example.momodemo.service.OrderService
 import jakarta.websocket.server.PathParam
@@ -21,8 +22,11 @@ class Route(private val orderService: OrderService) {
     @GetMapping("/search")
     fun search(@RequestParam(required = false) order_no : Long?,
                @RequestParam(required = false) cust_no : Long?,
-               @RequestParam(required = false) goods_code : Long?) : List<Order>? {
-        return  orderService.getOrderByCustNoAndOrderNoAndGoodsCode(cust_no, order_no, goods_code)
+               @RequestParam(required = false) goods_code : Long?,
+               @RequestParam(required = false, defaultValue = "0") current_page : Int,
+               @RequestParam(required = false, defaultValue = "50") page_limit : Int
+    ) : PageResult<Order>? {
+        return  orderService.getOrderByCustNoAndOrderNoAndGoodsCode(cust_no, order_no, goods_code, current_page, page_limit)
     }
 
     @GetMapping("/{no}")

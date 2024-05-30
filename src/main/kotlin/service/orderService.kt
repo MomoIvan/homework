@@ -1,8 +1,10 @@
 package com.example.momodemo.service
 
 import com.example.momodemo.model.Order
+import com.example.momodemo.model.PageResult
 import com.example.momodemo.repository.OrderRepository
 import com.example.momodemo.utils.ByteArrayConvert
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -32,7 +34,7 @@ class OrderService(
         return orderRepository.findByGoodsCode(goodsCode)
     }
 
-    fun getOrderByCustNoAndOrderNoAndGoodsCode(custNo: Long?, orderNo: Long?, goodsCode: Long?): List<Order>? {
+    fun getOrderByCustNoAndOrderNoAndGoodsCode(custNo: Long?, orderNo: Long?, goodsCode: Long?, currentPage: Int, pageLimit: Int): PageResult<Order>? {
         val query = Query()
 
         custNo?.let {
@@ -47,7 +49,25 @@ class OrderService(
             query.addCriteria(Criteria.where("goods_code").`is`(it))
         }
 
-        return mongoTemplate.find(query, Order::class.java)
+        val totalElements = mongoTemplate.count(query, Order::class.java)
+
+        query.with(PageRequest.of(currentPage, pageLimit))
+
+        val content = mongoTemplate.find(query, Order::class.java)
+
+        val totalPages = if (totalElements % pageLimit == 0L) {
+            (totalElements / pageLimit).toInt()
+        } else {
+            (totalElements / pageLimit + 1).toInt()
+        }
+
+        return PageResult<Order>(
+            content = content,
+            totalPages = totalPages,
+            totalElements = totalElements,
+            currentPage = currentPage,
+            pageLimit = pageLimit
+        )
     }
 
     @Transactional
