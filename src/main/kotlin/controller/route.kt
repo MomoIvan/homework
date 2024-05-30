@@ -45,13 +45,11 @@ class Route(private val orderService: OrderService) {
     }
 
     @PostMapping("/import")
-    fun importOrders(@RequestParam("file") file: MultipartFile) : List<Order>? {
+    fun importOrders(@RequestParam("file") file: MultipartFile) : Boolean {
         if (file.isEmpty || file.contentType != "text/csv") {
-            println("is Empty or != octet-stream")
-            return null
+            return false
         }
-
-        orderService.replaceFromSVC(file)
-        return null
+        
+        return orderService.replaceFromSVC(file)
     }
 }
