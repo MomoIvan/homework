@@ -3,16 +3,26 @@ package com.example.momodemo.controller
 import com.example.momodemo.model.Order
 import com.example.momodemo.model.PageResult
 import com.example.momodemo.service.OrderService
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/v1/orders")
+@CrossOrigin(origins = ["*"])
 class Route(private val orderService: OrderService) {
 
     @GetMapping
-    fun getAll(): List<Order> {
-        return orderService.getAllOrders()
+    fun getAll(
+        @RequestParam(required = false) sort: String?,
+        @RequestParam(required = false) range: String?,
+        @RequestParam(required = false) filter: String?,
+        response: HttpServletResponse
+    ): List<Order> {
+        val orders = orderService.getAllOrders()
+        response.setHeader("Access-Control-Expose-Headers", "X-Total-Count")
+        response.setHeader("X-Total-Count", orders.size.toString())
+        return orders
     }
 
     @GetMapping("/search")

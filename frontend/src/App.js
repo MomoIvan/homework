@@ -1,25 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Admin, Resource } from "react-admin";
+import { OrderList } from "./page/orderList";
+import jsonServerProvider from 'ra-data-json-server';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const dataProvider = jsonServerProvider('http://localhost:8080/api/v1');
+
+export const App = () => (
+    <Admin dataProvider={dataProvider}>
+      <Resource name="orders" list={OrderList} />
+    </Admin>
+)
 
 export default App;
