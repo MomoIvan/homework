@@ -29,8 +29,8 @@ class Route(private val orderService: OrderService) {
     fun search(@RequestParam(required = false) order_no : Long?,
                @RequestParam(required = false) cust_no : Long?,
                @RequestParam(required = false) goods_code : Long?,
-               @RequestParam(required = false, defaultValue = "0") current_page : Int,
-               @RequestParam(required = false, defaultValue = "50") page_limit : Int
+               @RequestParam(required = false) current_page : Int?,
+               @RequestParam(required = false) page_limit : Int?
     ) : PageResult<Order>? {
         return  orderService.getOrderByCustNoAndOrderNoAndGoodsCode(cust_no, order_no, goods_code, current_page, page_limit)
     }

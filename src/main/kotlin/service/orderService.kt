@@ -34,7 +34,8 @@ class OrderService(
         return orderRepository.findByGoodsCode(goodsCode)
     }
 
-    fun getOrderByCustNoAndOrderNoAndGoodsCode(custNo: Long?, orderNo: Long?, goodsCode: Long?, currentPage: Int, pageLimit: Int): PageResult<Order>? {
+    // 假設沒有帶入分頁資訊，那就回傳全部資料
+    fun getOrderByCustNoAndOrderNoAndGoodsCode(custNo: Long?, orderNo: Long?, goodsCode: Long?, currentPage: Int?, pageLimit: Int?): PageResult<Order>? {
         val query = Query()
 
         custNo?.let {
@@ -47,6 +48,18 @@ class OrderService(
 
         goodsCode?.let {
             query.addCriteria(Criteria.where("goods_code").`is`(it))
+        }
+
+        if (currentPage == null || pageLimit == null) {
+            val content = mongoTemplate.find(query, Order::class.java)
+
+            return PageResult<Order>(
+                content = content,
+                totalPages = 1,
+                totalElements = content.size.toLong(),
+                currentPage = 0,
+                pageLimit = content.size
+            )
         }
 
         val totalElements = mongoTemplate.count(query, Order::class.java)
