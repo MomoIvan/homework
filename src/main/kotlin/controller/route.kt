@@ -17,11 +17,8 @@ class Route(private val orderService: OrderService) {
         @RequestParam(required = false) sort: String?,
         @RequestParam(required = false) range: String?,
         @RequestParam(required = false) filter: String?,
-        response: HttpServletResponse
     ): List<Order> {
         val orders = orderService.getAllOrders()
-        response.setHeader("Access-Control-Expose-Headers", "X-Total-Count")
-        response.setHeader("X-Total-Count", orders.size.toString())
         return orders
     }
 
