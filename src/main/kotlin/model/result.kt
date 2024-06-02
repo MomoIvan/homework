@@ -1,7 +1,21 @@
 package com.example.momodemo.model
 
 data class BaseResult<T>(
-    var data: List<T>? = null,
     var errorCode: Int = 0,
     var errorMesssage: String = "",
+    var data: List<T>? = null,
+)
+
+data class BasePageResult<T>(
+    var errorCode: Int = 0,
+    var errorMesssage: String = "",
+    val data: List<T>? = null,
+    var Paginate: PaginateResponse? = null,
+)
+
+data class PaginateResponse (
+    val totalPages: Int = 1,
+    val totalElements: Long = 0,
+    val currentPage: Int = 0,
+    val pageLimit: Int = 0
 )

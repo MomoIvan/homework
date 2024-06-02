@@ -1,10 +1,9 @@
 package com.example.momodemo.controller
 
+import com.example.momodemo.model.BasePageResult
 import com.example.momodemo.model.BaseResult
 import com.example.momodemo.model.Order
-import com.example.momodemo.model.PageResult
 import com.example.momodemo.service.OrderService
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -18,7 +17,7 @@ class Route(private val orderService: OrderService) {
         @RequestParam(required = false) sort: String?,
         @RequestParam(required = false) range: String?,
         @RequestParam(required = false) filter: String?,
-    ): List<Order> {
+    ): BaseResult<Order> {
         val orders = orderService.getAllOrders()
         return orders
     }
@@ -29,22 +28,22 @@ class Route(private val orderService: OrderService) {
                @RequestParam(required = false) goods_code : Long?,
                @RequestParam(required = false) current_page : Int?,
                @RequestParam(required = false) page_limit : Int?
-    ) : PageResult<Order>? {
+    ) : BasePageResult<Order>? {
         return  orderService.getOrderByCustNoAndOrderNoAndGoodsCode(cust_no, order_no, goods_code, current_page, page_limit)
     }
 
     @GetMapping("/{no}")
-    fun getOrderByNo(@PathVariable no: Long): List<Order>? {
+    fun getOrderByNo(@PathVariable no: Long): BaseResult<Order>? {
         return orderService.getOrdersByNo(no)
     }
 
     @GetMapping("/cust/{no}")
-    fun getOrdersByCustNo(@PathVariable no: Long): List<Order>? {
+    fun getOrdersByCustNo(@PathVariable no: Long): BaseResult<Order>? {
         return orderService.getOrdersByCustNo(no)
     }
 
     @GetMapping("/goods/{no}")
-    fun getOrderByGoodsCode(@PathVariable no: Long): List<Order>? {
+    fun getOrderByGoodsCode(@PathVariable no: Long): BaseResult<Order>? {
         return orderService.getOrderByGoodsCode(no)
     }
 
