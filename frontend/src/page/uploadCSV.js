@@ -9,11 +9,11 @@ const UploadSVCToolbar = () => {
     const handleSave = async() => {
         try {
             const response = await ApiDataProvider.upload('orders/import', file)
-
-            if (response.data) {
+            
+            if (response.data.errorCode === 0) {
                 notify('Upload Data Successfully!!!!', { type: 'info'});
             } else {
-                notify('Upload Data Failed!!!!', { type: 'info'});
+                notify(`Upload Data Failed!!!! ${response.data.errorMessage}`, { type: 'info'});
             }
         } catch (error) {
             notify(`Error uploading file: ${error.message}`, { type: 'warning' });

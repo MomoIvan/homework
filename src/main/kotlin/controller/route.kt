@@ -1,5 +1,6 @@
 package com.example.momodemo.controller
 
+import com.example.momodemo.model.BaseResult
 import com.example.momodemo.model.Order
 import com.example.momodemo.model.PageResult
 import com.example.momodemo.service.OrderService
@@ -48,9 +49,9 @@ class Route(private val orderService: OrderService) {
     }
 
     @PostMapping("/import")
-    fun importOrders(@RequestParam("file") file: MultipartFile) : Boolean {
+    fun importOrders(@RequestParam("file") file: MultipartFile) : BaseResult<Order> {
         if (file.isEmpty || file.contentType != "text/csv") {
-            return false
+            return BaseResult<Order>( errorCode = 10000001, errorMesssage = "Valid failed")
         }
         
         return orderService.replaceFromSVC(file)

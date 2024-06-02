@@ -1,5 +1,6 @@
 package com.example.momodemo.service
 
+import com.example.momodemo.model.BaseResult
 import com.example.momodemo.model.Order
 import com.example.momodemo.model.PageResult
 import com.example.momodemo.repository.OrderRepository
@@ -84,20 +85,22 @@ class OrderService(
     }
 
     @Transactional
-    fun replaceFromSVC(file: MultipartFile) : Boolean {
-        val svcOrders = ByteArrayConvert().parseSVCFile(file.bytes) ?: return false
+    fun replaceFromSVC(file: MultipartFile) : BaseResult<Order> {
+        val svcOrders = ByteArrayConvert().parseSVCFile(file.bytes) ?: return BaseResult<Order>( errorCode = 20000001,  errorMesssage = "convert error")
 
         if (svcOrders.isEmpty()) {
-            return false
+            return BaseResult<Order>( errorCode = 20000002,  errorMesssage = "file is empty")
         }
 
         try {
             orderRepository.deleteAll()
             orderRepository.saveAll(svcOrders)
         } catch (e: Exception) {
-            return false
+            return BaseResult<Order>( errorCode = 20000099,  errorMesssage = "Exception : ${e.message}")
         }
 
-        return true
+        return BaseResult(
+            data = orderRepository.findAll()
+        )
     }
 }
