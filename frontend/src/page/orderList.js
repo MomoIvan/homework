@@ -82,7 +82,7 @@ export const OrderList = () => {
     return (
         <ListContextProvider
             value={useList({
-                data: listContext || [],
+                data: listContext,
                 total: totalElements,
                 page: currentPage,
                 perPage: pageLimit,
