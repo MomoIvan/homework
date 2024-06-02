@@ -12,9 +12,10 @@ const UploadSVCToolbar = () => {
 
             if (response.data.errorCode === 0) {
                 notify('Upload Data Successfully!!!!', { type: 'info'});
-            } else {
-                notify(`Upload Data Failed!!!! ${response.data.errorMessage}`, { type: 'info'});
+                return
             }
+
+            notify(`Upload Data Failed!!!! ${response.data.errorMessage}`, { type: 'info'});
         } catch (error) {
             notify(`Error uploading file: ${error.message}`, { type: 'warning' });
         }

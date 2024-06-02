@@ -54,10 +54,26 @@ export const OrderList = () => {
                 filter: filters,
             });
 
-            setTotalElements(response.data.totalElements)
-            setCurrentPage(response.data.currentPage + 1)
+            const respData = response.data
 
-            setListContext(response.data.content);
+            // 假如取得資料失敗就跳出警告
+            if (respData.errorCode > 0) {
+                notify(`Fetching data error : ${respData.errorMessage}`, { type: "warning"})
+                return
+            }
+
+            // 假設沒有資料則跳出通知提醒使用者
+            if (respData.data.length === 0) {
+                notify(`Orders not found!`, { type: "info"})
+                return
+            }
+
+            const respDataPaginate = respData.paginate
+
+            setTotalElements(respDataPaginate.totlaElements)
+            setCurrentPage(respDataPaginate.currentPage + 1) // 因為 API 設計 currentPage 給 0 但是 React-Admin 習慣用 1 所以另外加 1
+
+            setListContext(respData.data);
         } catch (error) {
             notify(`Error fetching data: ${error.message}`, { type: 'warning'})
         }

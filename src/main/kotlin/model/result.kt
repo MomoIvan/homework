@@ -10,7 +10,7 @@ data class BasePageResult<T>(
     var errorCode: Int = 0,
     var errorMesssage: String = "",
     val data: List<T>? = null,
-    var Paginate: PaginateResponse? = null,
+    var paginate: PaginateResponse? = null,
 )
 
 data class PaginateResponse (

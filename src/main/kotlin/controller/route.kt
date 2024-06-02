@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/v1/orders")
-@CrossOrigin(origins = ["*"])
+@CrossOrigin(origins = ["*"]) // 因為是在本地開發，所以用簡易的方式來處理 Cross 的問題
 class Route(private val orderService: OrderService) {
 
     @GetMapping

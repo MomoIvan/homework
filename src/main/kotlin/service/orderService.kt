@@ -64,6 +64,9 @@ class OrderService(
 
             return BasePageResult<Order>(
                 data = content,
+                paginate = PaginateResponse(
+                    totalElements = content.size.toLong()
+                )
             )
         }
 
@@ -81,7 +84,7 @@ class OrderService(
 
         return BasePageResult<Order>(
             data = content,
-            Paginate = PaginateResponse(
+            paginate = PaginateResponse(
                 totalPages = totalPages,
                 totalElements = totalElements,
                 currentPage = currentPage,
