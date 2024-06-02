@@ -13,13 +13,8 @@ import org.springframework.web.multipart.MultipartFile
 class Route(private val orderService: OrderService) {
 
     @GetMapping
-    fun getAll(
-        @RequestParam(required = false) sort: String?,
-        @RequestParam(required = false) range: String?,
-        @RequestParam(required = false) filter: String?,
-    ): BaseResult<Order> {
-        val orders = orderService.getAllOrders()
-        return orders
+    fun getAll(): BaseResult<Order> {
+        return orderService.getAllOrders()
     }
 
     @GetMapping("/search")
