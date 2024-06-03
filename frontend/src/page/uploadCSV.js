@@ -69,7 +69,7 @@ export const PostList = () => {
             })}
         >
             <div>
-                <Title title="Order List"/>
+                <Title title="Upload CSC"/>
                 <UploadSVCToolbar uploadSuccess={handleUploadSuccess}/>
                 <Card>
                     <Datagrid>
