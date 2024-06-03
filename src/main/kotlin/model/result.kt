@@ -2,13 +2,13 @@ package com.example.momodemo.model
 
 data class BaseResult<T>(
     var errorCode: Int = 0,
-    var errorMesssage: String = "",
+    var errorMessage: String = "",
     var data: List<T>? = null,
 )
 
 data class BasePageResult<T>(
     var errorCode: Int = 0,
-    var errorMesssage: String = "",
+    var errorMessage: String = "",
     val data: List<T>? = null,
     var paginate: PaginateResponse? = null,
 )

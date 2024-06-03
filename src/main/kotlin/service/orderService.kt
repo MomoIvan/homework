@@ -95,12 +95,12 @@ class OrderService(
 
     @Transactional
     fun replaceFromSVC(file: MultipartFile) : BaseResult<Order> {
-        val svcOrders = ByteArrayConvert().parseSVCFile(file.bytes) ?: return BaseResult<Order>( errorCode = 20000001,  errorMesssage = "convert error")
+        val svcOrders = ByteArrayConvert().parseSVCFile(file.bytes) ?: return BaseResult<Order>( errorCode = 20000001,  errorMessage = "convert error")
 
         if (svcOrders.isEmpty()) {
             return BaseResult<Order>(
                 errorCode = 20000002,
-                errorMesssage = "file is empty"
+                errorMessage = "file is empty"
             )
         }
 
@@ -110,7 +110,7 @@ class OrderService(
         } catch (e: Exception) {
             return BaseResult<Order>(
                 errorCode = 20000099,
-                errorMesssage = "Exception : ${e.message}"
+                errorMessage = "Exception : ${e.message}"
             )
         }
 

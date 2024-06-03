@@ -45,7 +45,7 @@ class Route(private val orderService: OrderService) {
     @PostMapping("/import")
     fun importOrders(@RequestParam("file") file: MultipartFile) : BaseResult<Order> {
         if (file.isEmpty || file.contentType != "text/csv") {
-            return BaseResult<Order>( errorCode = 10000001, errorMesssage = "Valid failed")
+            return BaseResult<Order>( errorCode = 10000001, errorMessage = "Valid failed")
         }
         
         return orderService.replaceFromSVC(file)
