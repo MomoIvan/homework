@@ -29,9 +29,9 @@ const OrderSearchToolbar = ({ onSearch }) => {
             }}
         >
             <div style={{display: 'flex', gap: '20px', alignItems: 'center', justifyContent: 'center', padding: '5px'}}>
-                <TextInput name="cust_no" label="Cust No" source="cust_no"  fullWidth style={inputStyle} />
-                <TextInput name="order_no" label="Order No" source="order_no" fullWidth style={inputStyle}/>
-                <TextInput name="goods_code" label="Goods Code" source="goods_code" fullWidth style={inputStyle} />
+                <TextInput name="cust_no" label="Cust No" source="cust_no" type="number"  fullWidth style={inputStyle} />
+                <TextInput name="order_no" label="Order No" source="order_no" type="number" fullWidth style={inputStyle}/>
+                <TextInput name="goods_code" label="Goods Code" source="goods_code" type="number" fullWidth style={inputStyle} />
                 <Button type="submit" variant="contained" color="primary" style={inputStyle} >
                     搜尋
                 </Button>
@@ -65,6 +65,10 @@ export const OrderList = () => {
             // 假設沒有資料則跳出通知提醒使用者
             if (respData.data.length === 0) {
                 notify(`Orders not found!`, { type: "info"})
+
+                setListContext([]);
+                setCurrentPage(1)
+                setTotalElements(0)
                 return
             }
 
