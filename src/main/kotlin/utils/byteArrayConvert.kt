@@ -8,7 +8,7 @@ class ByteArrayConvert {
 
     // 預設第一行是欄位名稱，從第二行開始是資料
     // 假如沒有資料就會吐 null
-    fun parseSVCFile(data: ByteArray): List<Order>? {
+    fun parserCSVFile(data: ByteArray): List<Order>? {
         val orders = mutableListOf<Order>()
 
         ByteArrayInputStream(data).use { inputStream ->

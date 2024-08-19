@@ -48,6 +48,6 @@ class Route(private val orderService: OrderService) {
             return BaseResult<Order>( errorCode = 10000001, errorMessage = "Valid failed")
         }
         
-        return orderService.replaceFromSVC(file)
+        return orderService.replaceFromCSV(file)
     }
 }

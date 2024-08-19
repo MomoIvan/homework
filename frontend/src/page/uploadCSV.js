@@ -69,7 +69,7 @@ export const PostList = () => {
             })}
         >
             <div>
-                <Title title="Upload CSC"/>
+                <Title title="Upload CSV"/>
                 <UploadSVCToolbar uploadSuccess={handleUploadSuccess}/>
                 <Card>
                     <Datagrid>

@@ -94,10 +94,10 @@ class OrderService(
     }
 
     @Transactional
-    fun replaceFromSVC(file: MultipartFile) : BaseResult<Order> {
-        val svcOrders = ByteArrayConvert().parseSVCFile(file.bytes) ?: return BaseResult<Order>( errorCode = 20000001,  errorMessage = "convert error")
+    fun replaceFromCSV(file: MultipartFile) : BaseResult<Order> {
+        val csvOrders = ByteArrayConvert().parserCSVFile(file.bytes) ?: return BaseResult<Order>( errorCode = 20000001,  errorMessage = "convert error")
 
-        if (svcOrders.isEmpty()) {
+        if (csvOrders.isEmpty()) {
             return BaseResult<Order>(
                 errorCode = 20000002,
                 errorMessage = "file is empty"
@@ -106,7 +106,7 @@ class OrderService(
 
         try {
             orderRepository.deleteAll()
-            orderRepository.saveAll(svcOrders)
+            orderRepository.saveAll(csvOrders)
         } catch (e: Exception) {
             return BaseResult<Order>(
                 errorCode = 20000099,
