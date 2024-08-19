@@ -77,7 +77,7 @@ class OrderService(
 
     @Transactional
     fun replaceFromCSV(file: MultipartFile) : BaseResult<Order> {
-        val csvOrders = ByteArrayConvert().parserCSVFile(file.bytes) ?: return BaseResult<Order>( errorCode = 20000001,  errorMessage = "convert error")
+        val csvOrders = ByteArrayConvert().csvToOrderList(file.bytes) ?: return BaseResult<Order>( errorCode = 20000001,  errorMessage = "convert error")
 
         if (csvOrders.isEmpty()) {
             return BaseResult<Order>(
