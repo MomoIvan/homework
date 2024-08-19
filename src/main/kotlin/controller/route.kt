@@ -12,11 +12,6 @@ import org.springframework.web.multipart.MultipartFile
 @CrossOrigin(origins = ["*"]) // 因為是在本地開發，所以用簡易的方式來處理 Cross 的問題
 class Route(private val orderService: OrderService) {
 
-    @GetMapping
-    fun getAll(): BaseResult<Order> {
-        return orderService.getAllOrders()
-    }
-
     @GetMapping("/search")
     fun search(@RequestParam(required = false) order_no : Long?,
                @RequestParam(required = false) cust_no : Long?,
@@ -25,21 +20,6 @@ class Route(private val orderService: OrderService) {
                @RequestParam(required = false) page_limit : Int?
     ) : BasePageResult<Order>? {
         return  orderService.getOrderByCustNoAndOrderNoAndGoodsCode(cust_no, order_no, goods_code, current_page, page_limit)
-    }
-
-    @GetMapping("/{no}")
-    fun getOrderByNo(@PathVariable no: Long): BaseResult<Order>? {
-        return orderService.getOrdersByNo(no)
-    }
-
-    @GetMapping("/cust/{no}")
-    fun getOrdersByCustNo(@PathVariable no: Long): BaseResult<Order>? {
-        return orderService.getOrdersByCustNo(no)
-    }
-
-    @GetMapping("/goods/{no}")
-    fun getOrderByGoodsCode(@PathVariable no: Long): BaseResult<Order>? {
-        return orderService.getOrderByGoodsCode(no)
     }
 
     @PostMapping("/import")
