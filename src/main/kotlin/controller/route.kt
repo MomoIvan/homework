@@ -1,6 +1,5 @@
 package com.example.momodemo.controller
 
-import com.example.momodemo.model.BasePageResult
 import com.example.momodemo.model.BaseResult
 import com.example.momodemo.model.Order
 import com.example.momodemo.service.OrderService
@@ -15,11 +14,9 @@ class Route(private val orderService: OrderService) {
     @GetMapping("/search")
     fun search(@RequestParam(required = false) order_no : Long?,
                @RequestParam(required = false) cust_no : Long?,
-               @RequestParam(required = false) goods_code : Long?,
-               @RequestParam(required = false) current_page : Int?,
-               @RequestParam(required = false) page_limit : Int?
-    ) : BasePageResult<Order>? {
-        return  orderService.getOrderByCustNoAndOrderNoAndGoodsCode(cust_no, order_no, goods_code, current_page, page_limit)
+               @RequestParam(required = false) goods_code : Long?
+    ) : BaseResult<Order>? {
+        return  orderService.getOrderByCustNoAndOrderNoAndGoodsCode(cust_no, order_no, goods_code)
     }
 
     @PostMapping("/import")

@@ -62,20 +62,18 @@ export const OrderList = () => {
                 return
             }
 
+            const contextCount = respData.data.length
+
+            setCurrentPage(1)
+            setTotalElements(contextCount)
+
             // 假設沒有資料則跳出通知提醒使用者
-            if (respData.data.length === 0) {
+            if (contextCount === 0) {
                 notify(`Orders not found!`, { type: "info"})
 
                 setListContext([]);
-                setCurrentPage(1)
-                setTotalElements(0)
                 return
             }
-
-            const respDataPaginate = respData.paginate
-
-            setTotalElements(respDataPaginate.totlaElements)
-            setCurrentPage(respDataPaginate.currentPage + 1) // 因為 API 設計 currentPage 給 0 但是 React-Admin 習慣用 1 所以另外加 1
 
             setListContext(respData.data);
         } catch (error) {
