@@ -68,7 +68,7 @@ class OrderService(
         }
 
         return BaseResult(
-            data = orderRepository.findAll()
+            data = csvOrders
         )
     }
 }
