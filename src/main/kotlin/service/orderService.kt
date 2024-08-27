@@ -23,24 +23,6 @@ class OrderService(
         )
     }
 
-    fun getOrdersByNo(orderNo: Long): BaseResult<Order>? {
-        return BaseResult<Order>(
-            data = orderRepository.findByOrderNo(orderNo)
-        )
-    }
-
-    fun getOrdersByCustNo(custNo: Long): BaseResult<Order>? {
-        return BaseResult<Order>(
-            data = orderRepository.findByCustNo(custNo)
-        )
-    }
-
-    fun getOrderByGoodsCode(goodsCode: Long): BaseResult<Order>? {
-        return BaseResult<Order>(
-            data = orderRepository.findByGoodsCode(goodsCode)
-        )
-    }
-
     // 假設沒有帶入分頁資訊，那就回傳全部資料
     fun getOrderByCustNoAndOrderNoAndGoodsCode(
         custNo: Long?, orderNo: Long?, goodsCode: Long?, currentPage: Int?, pageLimit: Int?
