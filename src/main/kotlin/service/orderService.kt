@@ -23,10 +23,10 @@ class OrderService(
         )
     }
 
-    // 假設沒有帶入分頁資訊，那就回傳全部資料
+
     fun getOrderByCustNoAndOrderNoAndGoodsCode(
-        custNo: Long?, orderNo: Long?, goodsCode: Long?, currentPage: Int?, pageLimit: Int?
-    ): BasePageResult<Order>? {
+        custNo: Long?, orderNo: Long?, goodsCode: Long?
+    ): BaseResult<Order>? {
         val query = Query()
 
         custNo?.let {
@@ -41,37 +41,8 @@ class OrderService(
             query.addCriteria(Criteria.where("goods_code").`is`(it))
         }
 
-        if (currentPage == null || pageLimit == null) {
-            val content = mongoTemplate.find(query, Order::class.java)
-
-            return BasePageResult<Order>(
-                data = content,
-                paginate = PaginateResponse(
-                    totalElements = content.size.toLong()
-                )
-            )
-        }
-
-        val totalElements = mongoTemplate.count(query, Order::class.java)
-
-        query.with(PageRequest.of(currentPage, pageLimit))
-
-        val content = mongoTemplate.find(query, Order::class.java)
-
-        val totalPages = if (totalElements % pageLimit == 0L) {
-            (totalElements / pageLimit).toInt()
-        } else {
-            (totalElements / pageLimit + 1).toInt()
-        }
-
-        return BasePageResult<Order>(
-            data = content,
-            paginate = PaginateResponse(
-                totalPages = totalPages,
-                totalElements = totalElements,
-                currentPage = currentPage,
-                pageLimit = pageLimit
-            )
+        return  BaseResult<Order>(
+            data = mongoTemplate.find(query, Order::class.java)
         )
     }
 
